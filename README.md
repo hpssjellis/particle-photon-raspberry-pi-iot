@@ -32,7 +32,7 @@ Then test D7 LED for connection.
 
 Then edit the buttons as needed for your device.
 
-![](pi-photon.png)
+![](chart-pi-photon.png)
 
 
 ![](chart.png)
