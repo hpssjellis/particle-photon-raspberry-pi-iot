@@ -20,10 +20,39 @@ Then test D7 LED for connection.
 
 Then edit the buttons as needed for your device.
 
+![](pi-photon.png)
+
+
+![](chart.png)
+
+
+
 
 Advanced:
 
 Change the web page name to just index.html and upload to https://build.phonegap.com/ to make an Android, Windows or iOS App. (Note: iOS has a yearly fee of $100.00)
+
+
+
+
+
+An older video of all but the recent stuff is at
+
+
+
+
+https://youtu.be/-CyKv4UC1OA
+
+
+[![Instructional video](http://img.youtube.com/vi/-CyKv4UC1OA/0.jpg)](https://youtu.be/-CyKv4UC1OA)
+
+
+
+
+
+
+
+
 
 
 
