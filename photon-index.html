@@ -1,12 +1,10 @@
 <html>
 <head>
-
-
-<title>Ajax Post Web Page Particle.io Photon </title>
+<title>Photon Index </title>
 
 <font style="font-size:30px">
 
-
+<!-- ********************* DO NOT MESS WITH THIS ADVANCED STUFF -->
 
 <script type="text/javascript">
 <!--
@@ -116,6 +114,16 @@ function sendToSpark(myIn){
 
   
 
+   
+   
+   
+   
+   
+   
+   
+ 
+
+   
 
 
 
@@ -159,9 +167,14 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 <br><br>
 
 
+<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br>   
+   
+   
+<!-- ********************* END OF:       DO NOT MESS WITH THIS ADVANCED STUFF -->  
 
 
 
+<!-- ********************* You change the following buttons as needed -->  
 
 
 <input type="button" value="d7-send-1" onClick="{
@@ -195,34 +208,11 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 Note: PWM only on A4, A5 presently<br>
 
 
-
-
-
-
-
-<br><br>
-
-
-
-
-
-
-<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br>
-
-
-
-<input type=button id="myToVolts" value="Convert Sensor reading into Volts" onclick="{
+<input type=button id="myToVolts" value="Test conversion for Volts" onclick="{
   var myTemp = parseFloat(getElementById('myDivId').innerHTML)
-  document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);
+  document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);   // edit this to test your data
 }">
 : <input type=text id="myCalc1" value=0 size=5>Volts <br><br><br>
-
-
-
-
-
-
-
 
 
 
