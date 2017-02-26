@@ -1,6 +1,13 @@
 # particle-photon-raspberry-pi-iot
 A web based simple interaction between the https://www.particle.io/ IDE for the Photon or the Raspberry PI 3 for doing IoT 
 
+
+PI-index.html at https://hpssjellis.github.io/particle-photon-raspberry-pi-iot/pi-index.html
+Photon-index.html at https://hpssjellis.github.io/particle-photon-raspberry-pi-iot/photon-index.html
+
+
+
+
 Blog about the journey at 
 
 https://community.particle.io/t/raspberry-pi-3-with-touchscreen-and-camera-v2/29378/
