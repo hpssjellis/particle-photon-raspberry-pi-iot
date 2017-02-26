@@ -85,7 +85,7 @@ function getFormValues(fobj){
    str = str.substr(0,(str.length - 1));
    return str;
 }
-function sendToSpark(myIn){
+function sendToParticle(myIn){
     document.all.myParameter.value = myIn
     document.myForm.action = 'https://api.spark.io/v1/devices/' + document.all.myDeviceId.value + '/' + document.all.myFunctionName.value
     myAjax(document.all.myCoolForm, document.myForm.action, 'myDivId')   
@@ -179,31 +179,31 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 
 <input type="button" value="d7-send-1" onClick="{
-    sendToSpark('d7-send-1')
+    sendToParticle('d7-send-1')
 }">
 
 
 
 <input type="button" value="d7-send-0" onClick="{
-    sendToSpark('d7-send-0')
+    sendToParticle('d7-send-0')
 }">
 
 
 
 
 <input type="button" value="a1-read" onClick="{
-    sendToSpark('a1-read')
+    sendToParticle('a1-read')
 }"><br>
 
 
 
 <input type="button" value="a4-send-0" onClick="{
-    sendToSpark('a4-send-0')
+    sendToParticle('a4-send-0')
 }">
 
 
 <input type="button" value="a4-send-255" onClick="{
-    sendToSpark('a4-send-255')
+    sendToParticle('a4-send-255')
 }">
     
 Note: PWM only on A4, A5 presently<br>
