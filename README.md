@@ -5,6 +5,9 @@ A web based simple interaction between the https://www.particle.io/ IDE for the 
 
 Not yet working Feb 25, 2017!
 
+Old buyt student tested version of theis repository at https://github.com/hpssjellis/spark-core-web-page-html-control
+
+
 For use with the Particle-Photon or the Raspberry Pi using the https://www.particle.io/ IDE
 
 
