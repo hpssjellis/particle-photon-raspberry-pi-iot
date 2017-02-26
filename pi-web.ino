@@ -40,29 +40,32 @@ int myMain(String myCode) {
      
     // Block sets pinNumber for digital 0-7 or analog 10-17 from the number
     int mySetWrite = 0;
-    String pinNumber2 = myCode.substring(0,1);   // for PI 2 digit GPIO numbers
+    String pinNumber2 = myCode.substring(0,2);   // for PI 2 digit GPIO numbers
    // if (pinNumber< 0 || pinNumber >7) return -1; 
    // if (myCode.startsWith("A")){pinNumber = pinNumber+10;}  //+10 is for analog numbers
     
-    
-    if (pinNumber2 == "D0"){pinNumber2 = "4";} // Photon to PI
-    if (pinNumber2 == "D1"){pinNumber2 = "17";} // Photon to PI
-    if (pinNumber2 == "D2"){pinNumber2 = "27";} // Photon to PI
-    if (pinNumber2 == "D3"){pinNumber2 = "22";} // Photon to PI
-    if (pinNumber2 == "D4"){pinNumber2 = "5";} //  Photon to PI
-    if (pinNumber2 == "D5"){pinNumber2 = "4";} //  Photon to PI
-    if (pinNumber2 == "D6"){pinNumber2 = "13";} // PWM   Photon to PI
-    if (pinNumber2 == "D7"){pinNumber2 = "19";} // PWM   Photon to PI
-    if (pinNumber2 == "A0"){pinNumber2 = "18";} // PWM   Photon to PI
-    if (pinNumber2 == "A1"){pinNumber2 = "23";} // Photon to PI
-    if (pinNumber2 == "A2"){pinNumber2 = "24";} // Photon to PI
-    if (pinNumber2 == "A3"){pinNumber2 = "25";} // Photon to PI
-    if (pinNumber2 == "A4"){pinNumber2 = "12";} // Photon to PI
-    if (pinNumber2 == "A5"){pinNumber2 = "16";} // PWM    Photon to PI
-    if (pinNumber2 == "A6"){pinNumber2 = "20";} // Photon to PI
-    if (pinNumber2 == "A7"){pinNumber2 = "21";} // Photon to PI
-    
     int pinNumber = pinNumber2.toInt();
+        
+    
+        
+    if (pinNumber2 == "D0"){pinNumber = 4;} // Photon to PI
+    if (pinNumber2 == "D1"){pinNumber = 17;} // Photon to PI
+    if (pinNumber2 == "D2"){pinNumber = 27;} // Photon to PI
+    if (pinNumber2 == "D3"){pinNumber = 22;} // Photon to PI
+    if (pinNumber2 == "D4"){pinNumber = 5;} //  Photon to PI
+    if (pinNumber2 == "D5"){pinNumber = 4;} //  Photon to PI
+    if (pinNumber2 == "D6"){pinNumber = 13;} // PWM   Photon to PI
+    if (pinNumber2 == "D7"){pinNumber = 19;} // PWM   Photon to PI
+    if (pinNumber2 == "A0"){pinNumber = 18;} // PWM   Photon to PI
+    if (pinNumber2 == "A1"){pinNumber = 23;} // Photon to PI
+    if (pinNumber2 == "A2"){pinNumber = 24;} // Photon to PI
+    if (pinNumber2 == "A3"){pinNumber = 25;} // Photon to PI
+    if (pinNumber2 == "A4"){pinNumber = 12;} // Photon to PI
+    if (pinNumber2 == "A5"){pinNumber = 16;} // PWM    Photon to PI
+    if (pinNumber2 == "A6"){pinNumber = 20;} // Photon to PI
+    if (pinNumber2 == "A7"){pinNumber = 21;} // Photon to PI
+    
+   // int pinNumber = pinNumber2.toInt();
     
   
     String  myActivity = myCode.substring(3,7);     // take 4 characters starting at the 3rd.
@@ -79,7 +82,11 @@ int myMain(String myCode) {
     
     // myCode parsing complete
     
-    
+
+    String myPinStr = String(pinNumber, DEC);
+    String mySetStr = String(mySetWrite, DEC);
+ 
+    Particle.publish("PI", String("GPIO = " + myPinStr + " to " + mySetStr ), 60, PRIVATE);  
     
     
     // PUT YOUR OWN IF STATEMENT HERE
@@ -87,14 +94,51 @@ int myMain(String myCode) {
     if (myActivity == "MINE"){ 
           
           
-          // Your I2C special code or other code
+          // Your special code here
           
      return mySetWrite;     
     }
     
     
     
+     if (myActivity == "I2C!"){ 
+         // Pin numbers are set
+         // GPIO 2 = SDA
+         // GPIO 3 = SCL
+          
+          
+          // Your special code here
+          
+     return mySetWrite;     
+    }
     
+    
+    if (myActivity == "SPI!"){ 
+        // Pin numbers are set
+        //GPIO 10 = MOSI
+        //GPIO 9  = MISO
+        //GPIO 11 = SCLK
+          
+          
+          // Your special code here
+          
+     return mySetWrite;     
+    }
+    
+    
+    if (myActivity == "UART"){ 
+        // Pin numbers are set
+        //GPIO 8  = TX
+        //GPIO 10 = RX
+          
+          
+          // Your special code here
+          
+     return mySetWrite;     
+    }
+    
+    
+       
     
     
     
@@ -119,7 +163,7 @@ int myMain(String myCode) {
     
     
     
-    // NO ANALOG READ USE I2C INSTEAD ?????:???
+    // NO ANALOG READ on PI USE I2C INSTEAD ?????:???
      //   if (myActivity == "READ"){    //Analog read
           //  pinMode(pinNumber, INPUT_PULLUP); // stangely not needed on the photon
        //     return analogRead(pinNumber);
@@ -133,7 +177,7 @@ int myMain(String myCode) {
     if (pinNumber == 13 || pinNumber == 16 || pinNumber == 18 || pinNumber == 19 ){
         
         
-        if (myActivity == "SEND"){    //Analog Write
+        if (myActivity == "PWM!"){    //Analog Write
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
             return mySetWrite;
@@ -141,5 +185,20 @@ int myMain(String myCode) {
       }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
