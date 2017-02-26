@@ -1,11 +1,11 @@
 # particle-photon-raspberry-pi-iot
-A web based simple interaction between the Particle.io IDE for the Photon or the Raspberry PI 3 for doing IoT 
+A web based simple interaction between the https://www.particle.io/ IDE for the Photon or the Raspberry PI 3 for doing IoT 
 
 
 
 Not yet working Feb 25, 2017!
 
-For use with the Particle-Photon or the Raspberry Pi using the Particle.io IDE
+For use with the Particle-Photon or the Raspberry Pi using the https://www.particle.io/ IDE
 
 
 Flash the resecptive .ino to the Photon or Raspberry Pi and then run the respective -index.html web page.
