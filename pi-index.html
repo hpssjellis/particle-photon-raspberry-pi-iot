@@ -178,35 +178,51 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 <!-- ********************* You change the following buttons as needed -->  
 
 
-<input type="button" value="d7:send:1" onClick="{
+<input type="button" value="d7:send:HIGH" onClick="{
     sendToParticle('d7:send:1')
 }">
 
 
-
-<input type="button" value="d7:send:0" onClick="{
+<input type="button" value="d7:send:LOW" onClick="{
     sendToParticle('d7:send:0')
-}">
-
-
-
-
-<input type="button" value="a1:read" onClick="{
-    sendToParticle('a1:read')
 }"><br>
 
-
-
-<input type="button" value="a4:send:0" onClick="{
-    sendToParticle('a4:send:0')
+<input type="button" value="19:send:1" onClick="{
+    sendToParticle('19:send:1')
 }">
 
 
-<input type="button" value="a4:send:255" onClick="{
-    sendToParticle('a4:send:255')
-}">
-    
-Note: PWM only  13, 16,  18,  19  <br><br>
+<input type="button" value="19:send:0" onClick="{
+    sendToParticle('19:send:0')
+}"><br>
+  
+   
+
+<input type="button" value="19:PWM!:0" onClick="{
+    sendToParticle('19:PWM!:0')
+}"><br>
+  
+
+<input type="button" value="19:PWM!:100" onClick="{
+    sendToParticle('19:PWM!:100')
+}"><br>
+  
+<input type="button" value="19:PWM!:250" onClick="{
+    sendToParticle('19:PWM!:250')
+}"><br>
+     
+   
+<input type="button" value="26:read" onClick="{
+    sendToParticle('26:read')
+}"><br>
+  
+   
+   
+   
+
+GPIO pins at:  2-27 Some are preset pull-up.
+Note: PWM! only at GPIO pins:  13, 16,  18,  19  <br><br>
+Note: I have only mentioned GPIO pin numbers and not physical pin numbers to make things less confusing. Cehck the chart below.   
    
    
 
@@ -219,6 +235,9 @@ Note: PWM only  13, 16,  18,  19  <br><br>
 
 
 
+   
+   
+   <img src="https://developer.microsoft.com/en-us/windows/iot/docs/pinmappingsrpi">
 
 </font>
 </body>
