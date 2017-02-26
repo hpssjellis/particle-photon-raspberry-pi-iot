@@ -131,7 +131,7 @@ function sendToParticle(myIn){
 
 
 
-<h2 align=center>Simplist Ajax Web Page for the Raspberry Pi using the Particle.io IDE </h2>
+<h2 align=center>Ajax Web Page for the Raspberry Pi using the Particle.io IDE </h2>
 
 
 
@@ -196,24 +196,33 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
     sendToParticle('19:send:0')
 }"><br>
   
-   
+ 
+<input type="button" value="17:send:1" onClick="{
+    sendToParticle('17:send:1')
+}">
 
-<input type="button" value="19:PWM!:0" onClick="{
-    sendToParticle('19:PWM!:0')
+
+<input type="button" value="17:send:0" onClick="{
+    sendToParticle('17:send:0')
+}"><br>
+    
+
+<input type="button" value="18:PWM!:0" onClick="{
+    sendToParticle('18:PWM!:0')
 }"><br>
   
 
-<input type="button" value="19:PWM!:100" onClick="{
-    sendToParticle('19:PWM!:100')
-}"><br>
+<input type="button" value="18:PWM!:100" onClick="{
+    sendToParticle('18:PWM!:100')
+}">
   
-<input type="button" value="19:PWM!:250" onClick="{
-    sendToParticle('19:PWM!:250')
-}"><br>
+<input type="button" value="18:PWM!:250" onClick="{
+    sendToParticle('18:PWM!:250')
+}">
      
    
-<input type="button" value="26:read" onClick="{
-    sendToParticle('26:read')
+<input type="button" value="17:read" onClick="{
+    sendToParticle('17:read')
 }"><br>
   
    
