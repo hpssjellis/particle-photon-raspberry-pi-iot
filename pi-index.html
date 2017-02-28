@@ -131,7 +131,7 @@ function sendToParticle(myIn){
 
 
 
-<h2 align=center>Ajax Web Page for the Raspberry Pi using the Particle.io IDE </h2>
+<h2 align=center>Ajax Web Page for the Raspberry Pi using the Particle.io  </h2>
 
 
 
@@ -168,7 +168,23 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 <br><br>
 
 
-<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br>   
+<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br> 
+   
+   
+ <input type="button" value="Activate Loop" onClick="{
+    if (this.value = 'Activate Loop'){                                                 
+        sendToParticle('xx:loop:1') 
+        this.value = 'Stop Looping'
+    } else {
+        sendToParticle('xx:loop:0')  
+        this.value = 'Activate Loop'
+    }
+}">  
+   
+   
+   
+   
+   
    
    
 <!-- ********************* END OF:       DO NOT MESS WITH THIS ADVANCED STUFF -->  
@@ -177,6 +193,11 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 <!-- ********************* You change the following buttons as needed -->  
 
+   
+   
+   
+   
+   
 
 <input type="button" value="d7:send:HIGH" onClick="{
     sendToParticle('d7:send:1')
