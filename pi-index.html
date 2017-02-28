@@ -131,7 +131,7 @@ function sendToParticle(myIn){
 
 
 
-<h2 align=center>Ajax Web Page for the Raspberry Pi using the Particle.io IDE </h2>
+<h2 align=center>Ajax Web Page for the Raspberry Pi using the Particle.io </h2>
 
 
 
@@ -172,7 +172,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
    
  <input type="button" value="Activate Loop" onClick="{
-    if (this.value = 'Activate Loop'){                                                 
+    if (this.value == 'Activate Loop'){                                                 
         sendToParticle('xx:loop:1') 
         this.value = 'Stop Looping'
     } else {
