@@ -1,4 +1,5 @@
 //Web PI 
+
 // By Jeremy Ellis
 
 
@@ -102,7 +103,7 @@ int myMain(String myCode) {
     String myPinStr = String(pinNumber, DEC);
     String mySetStr = String(mySetWrite, DEC);
  
-    Particle.publish("PI", String("GPIO = " + myPinStr + " to " + mySetStr ), 60, PRIVATE);  
+    Particle.publish("PI", String(myActivity + " GPIO Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
     
     
     // PUT YOUR OWN IF STATEMENT HERE
