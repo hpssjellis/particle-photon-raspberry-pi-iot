@@ -179,7 +179,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
         sendToParticle('xx:loop:0')  
         this.value = 'Activate Loop'
     }
-}">  
+}">  <br><br>
    
    
    
@@ -258,19 +258,28 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
    
 
-GPIO pins at:  2-27 Some are preset pull-up.
+GPIO pins at:  2-27 Some are preset pull-up.<br>
 Note: PWM! only at GPIO pins:  13, 16,  18,  19  <br><br>
-Note: I have only mentioned GPIO pin numbers and not physical pin numbers to make things less confusing. Lookup the Pin numbers at a site such as 
+ 
+Serial - I2C<br> 
+GPIO 2 = SDA<br>
+GPIO 3 = SCL<br> <br>
+
+
+Serial - SPI <br>
+GPIO 10 = MOSI <br>
+GPIO 9  = MISO <br>
+GPIO 11 = SCLK <br> <br>
+
+Serial-UART <br> 
+GPIO 8  = TX <br>
+GPIO 10 = RX <br>   
+   
+   
+Note: I have only mentioned GPIO pin numbers and not physical pin numbers to make things less confusing. Lookup the Pin numbers at a site such as <br>
    <a href="https://developer.microsoft.com/en-us/windows/iot/docs/pinmappingsrpi">https://developer.microsoft.com/en-us/windows/iot/docs/pinmappingsrpi</a> 
    
-   <br><br>
 
-
-<input type=button id="myToVolts" value="Test conversion for Volts" onclick="{
-  var myTemp = parseFloat(getElementById('myDivId').innerHTML)
-  document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);   // edit this to test your data
-}">
-: <input type=text id="myCalc1" value=0 size=5>Volts <br><br><br>
 
 
 
