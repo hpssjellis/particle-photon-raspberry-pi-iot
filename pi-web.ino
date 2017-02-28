@@ -1,5 +1,12 @@
+//Web PI 
+// By Jeremy Ellis
+
+
 //PUT YOUR VARIABLES HERE
 
+
+bool myPiControl = false;   // You may want this to be true so that the 
+                            // PI Loop controls an actuator at startup
 
 
 void setup(){
@@ -19,7 +26,16 @@ void setup(){
 
 void loop(){
     
-    //PUT YOUR LOOP CODE HERE
+    //PUT YOUR GENERIC LOOP CODE HERE
+    
+    if ( myPiControl ){
+    
+    //PUT YOUR SPECIAL LOOP CODE HERE 
+    
+       Particle.publish("Special Loop", "Active", 60, PRIVATE);  
+       delay(5000);
+    
+    }
 
 }
 
@@ -99,50 +115,16 @@ int myMain(String myCode) {
      return mySetWrite;     
     }
     
-    
-    
-     if (myActivity == "I2C!"){ 
-         // Pin numbers are set
-         // GPIO 2 = SDA
-         // GPIO 3 = SCL
-          
+    if (myActivity == "LOOP"){   //xx:loop:1  sets loop to be on
+        if (mySetWrite == 0) {myPiControl = false; }  
+        if (mySetWrite == 1) {myPiControl = true; }  
           
           // Your special code here
           
      return mySetWrite;     
-    }
+    }   
     
-    
-    if (myActivity == "SPI!"){ 
-        // Pin numbers are set
-        //GPIO 10 = MOSI
-        //GPIO 9  = MISO
-        //GPIO 11 = SCLK
-          
-          
-          // Your special code here
-          
-     return mySetWrite;     
-    }
-    
-    
-    if (myActivity == "UART"){ 
-        // Pin numbers are set
-        //GPIO 8  = TX
-        //GPIO 10 = RX
-          
-          
-          // Your special code here
-          
-     return mySetWrite;     
-    }
-    
-    
-       
-    
-    
-    
-    
+  
     
     
     //if (pinNumber < 9) {   // digital pins activated
