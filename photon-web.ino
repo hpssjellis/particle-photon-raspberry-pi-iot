@@ -1,8 +1,10 @@
 
 
+
 //PUT YOUR VARIABLES HERE
 
-
+bool myPiControl = false;   // You may want this to be true so that the 
+                            // PI Loop controls an actuator at startup
 
 void setup(){
     
@@ -21,24 +23,38 @@ void setup(){
 
 void loop(){
     
-    //PUT YOUR LOOP CODE HERE
+    //PUT YOUR GENERIC LOOP CODE HERE
+    
+    if ( myPiControl ){
+    
+    //PUT YOUR SPECIAL LOOP CODE HERE 
+    
+       Particle.publish("Special Loop", "Active", 60, PRIVATE);  
+       delay(5000);
+    
+    }
 
 }
 
+
+
+
+
 int myMain(String myCode) {
     
-    myCode.toUpperCase();           // set argument to uppercase--remove for better security
+    myCode.toUpperCase();          
     
     // used send instead of write since I needed it to be 4 characters long.
     
 
-    // d7-send-1 or d7-send-high or d7-send-on    to turn on D7
-    // d7-send-0   or d7-send-low  or d7-send-off to tuurn off D7
-    // d5-read    read D5
+    // d7:send:1 or d7:send:high or d7:send-:on    to turn on D7
+    // d7:send:0   or d7:send-:low  or d7:send:off to tuurn off D7
+    // d5-read        read D5
 
-    // a0-send-0     turn A0 off
-    // a0-send-255   turn A0 maximum
-    // a1-read       read A1
+    // a0:PWM!:0     turn A0 off
+    // a0:PWM!:255   turn A0 maximum
+    
+    // a1:read        read A1
      
     // Block sets pinNumber for digital 0-7 or analog 10-17 from the number
     int mySetWrite = 0;
@@ -59,8 +75,48 @@ int myMain(String myCode) {
                 else if(myOptional == "OFF") {mySetWrite = 0; }
                    else {mySetWrite = myOptional.toInt();  }  // sets  write value
     
-    
+    String myPinStr = String(pinNumber, DEC);
+    String mySetStr = String(mySetWrite, DEC);
+ 
+    Particle.publish("photon", String(myActivity + " Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
     // myCode parsing complete
+    
+    
+    
+    
+    
+    
+        // PUT YOUR OWN IF STATEMENT HERE
+    // USE CODE 99:MINE:30
+    if (myActivity == "MINE"){ 
+          
+          
+          // Your special code here
+          
+     return mySetWrite;     
+    }
+    
+    if (myActivity == "LOOP"){   //xx:loop:1  sets loop to be on
+        if (mySetWrite == 0) {myPiControl = false; }  
+        if (mySetWrite == 1) {myPiControl = true; }  
+          
+          // Your special code here
+          
+     return mySetWrite;     
+    }   
+    
+    
+    
+    
+    if (myActivity == "PWM!"){    //Analog Write PWM values 0-250
+         if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17    ){
+            pinMode(pinNumber, OUTPUT);
+            analogWrite(pinNumber,  mySetWrite);
+            return mySetWrite;
+        }
+    }      
+    
+    
     
     
     if (pinNumber < 9) {   // digital pins activated
@@ -79,20 +135,13 @@ int myMain(String myCode) {
         
     }  else {      // analog pins activated
     
-        if (myActivity == "READ"){    //Analog read           // pinMode(pinNumber, INPUT_PULLUP); // sets unknown to max 4095 analog read
-           // pinMode(pinNumber, INPUT); // sets to input
-           // pinMode(pinNumber, INPUT_PULLDOWN); // sets unknown to 0 min analog read
-           // trying nothing, since with the new version of tinker this works
+        if (myActivity == "READ"){    //Analog read     values 0-4095   
+                                             // strangely analogRead does not need pinMode() set
             return analogRead(pinNumber);
         }
         
-        if (myActivity == "SEND"){    //Analog Write
-            pinMode(pinNumber, OUTPUT);
-            analogWrite(pinNumber,  mySetWrite);
-            return mySetWrite;
-        }        
+   
       }
     
 }
-
 
