@@ -194,7 +194,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 <!-- ********************* You change the following buttons as needed -->  
 
-If using a sensor edit the below code to set your values to a correct amount with units:
+If using a sensor edit the below code to set your values to a correct amount with units:<br>
  <input type=button id="myToVolts" value="Test conversion for Volts" onclick="{
   var myTemp = parseFloat(getElementById('myDivId').innerHTML)
   document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);   // edit this to test your data
@@ -230,8 +230,18 @@ If using a sensor edit the below code to set your values to a correct amount wit
 <input type="button" value="a4:send:255" onClick="{
     sendToParticle('a4:send:255')
 }">
-    
-Note: PWM only on A4, A5 presently<br>
+   
+   
+Note: Analog sensors read from 0-4095<br><br>   
+Note: PWM  from 0 to 255 can only be easily acitvated on A4, A5 presently<br>
+   But can be activated with fancier code on either <br>
+D0, D1, A4, A5, WKP, RX, TX<br>
+
+Or<br>
+
+D0, D1, D2, D3, WKP, RX, TX<br><br>
+   
+   
 
 
 
