@@ -100,6 +100,10 @@ function sendToParticle(myIn){
 
 
 </head>
+   
+   
+   
+<!-- Following is the local storage code that stores your Index ID and Access code in the browsers sandbox -->   
 
 <body onload="{
    myStorage1 = localStorage.getItem('myStoredText1')
@@ -131,7 +135,7 @@ function sendToParticle(myIn){
 
 
 
-<h2 align=center>Simplist Ajax Web Page for the Particle.io Photon<br> (formerly the Spark.io Core) </h2>
+<h2 align=center>Web Page for the Particle.io Photon </h2>
 
 
 
@@ -170,6 +174,19 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 <div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br>   
    
+      
+ <input type="button" value="Activate Loop" onClick="{
+    if (this.value == 'Activate Loop'){                                                 
+        sendToParticle('xx:loop:1') 
+        this.value = 'Stop Looping'
+    } else {
+        sendToParticle('xx:loop:0')  
+        this.value = 'Activate Loop'
+    }
+}">  <br><br>
+   
+ 
+
    
 <!-- ********************* END OF:       DO NOT MESS WITH THIS ADVANCED STUFF -->  
 
@@ -177,7 +194,15 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 <!-- ********************* You change the following buttons as needed -->  
 
-
+If using a sensor edit the below code to set your values to a correct amount with units:
+ <input type=button id="myToVolts" value="Test conversion for Volts" onclick="{
+  var myTemp = parseFloat(getElementById('myDivId').innerHTML)
+  document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);   // edit this to test your data
+}">
+: <input type=text id="myCalc1" value=0 size=5>Volts <br><br><br>    
+   
+   
+   
 <input type="button" value="d7:send:1" onClick="{
     sendToParticle('d7:send:1')
 }">
@@ -209,11 +234,6 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 Note: PWM only on A4, A5 presently<br>
 
 
-<input type=button id="myToVolts" value="Test conversion for Volts" onclick="{
-  var myTemp = parseFloat(getElementById('myDivId').innerHTML)
-  document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);   // edit this to test your data
-}">
-: <input type=text id="myCalc1" value=0 size=5>Volts <br><br><br>
 
 
 
