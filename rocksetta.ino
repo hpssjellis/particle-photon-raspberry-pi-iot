@@ -1,5 +1,4 @@
 
-
 //Web PI 
 
 // By Jeremy Ellis
@@ -50,27 +49,44 @@ void loop(){
 
 int myMain(String myCode) {
     
-    myCode.toUpperCase();           // set argument to uppercase--remove for better security
-    
-    // used send instead of write since I needed it to be 4 characters long.
+    myCode.toUpperCase();           // set argument to uppercase
     
 
-    // d7:write=1 or d7:send:high or d7:send:on    to turn on D7
-    // d7:write=0   or d7:send:low  or d7:send:off to tuurn off D7
-    // d5:read    read D5
+    
+    //digitalWrite(D7,HIGH);
+    
+    //myActivity -- pinNumber -- myOptional
+    
+    
+    
+   // int pinNumber = pinNumber2.toInt();
+   int myComma = myCode.indexOf(",");
+   int myOpenBracket = myCode.indexOf("(");
+    
+   // Particle.publish("READ VALUE", String(myCharLocation), 60, PRIVATE);  
+    String  myActivity = myCode.substring(0, myOpenBracket);     // take characters until cutoff
+    
 
-    // a5:PWM=0     turn A5  PWM off
-    // a5:PWM=255   turn A5 PWM maximum
-  
-     
-    // Block sets pinNumber for digital 0-7 or analog 10-17 from the number
-    int mySetWrite = 0;
-    String pinNumberString = myCode.substring(0,2);   // for PI 2 digit GPIO numbers
+    String pinNumberString = myCode.substring(myOpenBracket+1, myComma);   // for PI 2 digit GPIO numbers
+    
+    
+    
+    
+    String myOptional = myCode.substring(myComma + 1);   //grabs the numbers after the equal sign   
    // if (pinNumber< 0 || pinNumber >7) return -1; 
    // if (myCode.startsWith("A")){pinNumber = pinNumber+10;}  //+10 is for analog numbers
+   
+    myOptional = myOptional.replace(");", "");  // get rid of the ); at the end
+   
+   
+    Particle.publish(myActivity, String(pinNumberString + ", "+myOptional), 60, PRIVATE);  
     
     int pinNumber = pinNumberString.toInt();
+    
+        // try  string.replace(" ", "");
         
+        
+     int mySetWrite = 0;       
     
     if (isPI){   // Raspberry PI pin numbers
     
@@ -118,18 +134,14 @@ int myMain(String myCode) {
         
     }
     
-   // int pinNumber = pinNumber2.toInt();
-    
-  
-    String  myActivity = myCode.substring(3,7);     // take 4 characters starting at the 3rd.
      
     
     //Following sets the 7 and on characters to integers
     
     // try string.charAt(n)
     //string.indexOf(val)
+
     
-    String myOptional = myCode.substring(myCode.indexOf("="));   //grabs the numbers after the equal sign   
     if(myOptional == "HIGH") {mySetWrite = 1;}
         else if(myOptional == "LOW") {mySetWrite = 0; }
             else if(myOptional == "ON") {mySetWrite = 1;}
@@ -180,7 +192,16 @@ int myMain(String myCode) {
     
     
     
-    
+     
+    if (myActivity == "WHOAMI"){   // which microprocessor
+    if ( isPI ){ 
+        mySetWrite = 31;   //raspberry PI
+    } else {
+        mySetWrite = 6;  // Photon 
+    }
+          
+     return mySetWrite;     
+    }     
     
     
     
@@ -201,19 +222,14 @@ int myMain(String myCode) {
     
     //if (pinNumber < 9) {   // digital pins activated
    
-        if (myActivity == "READ"){    //digital read
+        if (myActivity == "DIGITALREAD"){    //digital read
             pinMode(pinNumber, INPUT_PULLDOWN);
             Particle.publish("READ VALUE", String(digitalRead(pinNumber)), 60, PRIVATE);  
             return digitalRead(pinNumber);
         }
         
-        if (myActivity == "SEND"){    //digital write
-            pinMode(pinNumber, OUTPUT);
-            digitalWrite(pinNumber, mySetWrite);
-            return mySetWrite;
-        }       
         
-         if (myActivity == "WRIT"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
+         if (myActivity == "DIGITALWRITE"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
             return mySetWrite;
@@ -223,19 +239,15 @@ int myMain(String myCode) {
    
    {
        if (pinNumber < 10){
-           if (myActivity == "READ"){    //digital read
+           if (myActivity == "DIGITALREAD"){    //digital read
             pinMode(pinNumber, INPUT_PULLDOWN);
             Particle.publish("Digital Read Value", String(digitalRead(pinNumber)), 60, PRIVATE);  
             return digitalRead(pinNumber);
         }
         
-        if (myActivity == "SEND"){    //digital write
-            pinMode(pinNumber, OUTPUT);
-            digitalWrite(pinNumber, mySetWrite);
-            return mySetWrite;
-        }       
+   
         
-         if (myActivity == "WRIT"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
+         if (myActivity == "DIGITALWRITE"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
             return mySetWrite;
@@ -243,9 +255,9 @@ int myMain(String myCode) {
        
        } else {  // only photon has analog read pin numbers over 10
        
-        if (myActivity == "READ"){    //Analog read     values 0-4095   
+        if (myActivity == "ANALOGREAD"){    //Analog read     values 0-4095   
                                       // strangely analogRead does not need pinMode() set
-            Particle.publish("Analog read value", String(digitalRead(pinNumber)), 60, PRIVATE);  
+            Particle.publish("Analog read value", String(analogRead(pinNumber)), 60, PRIVATE);  
             return analogRead(pinNumber);
         }
          
@@ -265,7 +277,7 @@ int myMain(String myCode) {
     if ( isPI ){   // PWM 0-255 on the PI only on certain pins 13, 16, 18, 19 
      if (pinNumber == 13 || pinNumber == 16 || pinNumber == 18 || pinNumber == 19 ){
         
-        if (myActivity == "PWM!"){    //Analog Write
+        if (myActivity == "ANALOGWRITE"){    //Analog Write
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
             return mySetWrite;
@@ -274,10 +286,12 @@ int myMain(String myCode) {
     } else {   // PWM 0-255 on Photon only on these pins:  D0, D1, (A4 or D2), (A5 or D3), WKP=A7, RX, TX
         
        if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17   || pinNumber == 18  || pinNumber == 19   ){
+        if (myActivity == "ANALOGWRITE"){    //Analog Write
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
             return mySetWrite;
-        }   
+        } 
+       }    
         
     }
     
