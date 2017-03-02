@@ -1,11 +1,8 @@
 # particle-photon-raspberry-pi-iot
-A web based simple interaction between the https://www.particle.io/ IDE for the Photon or the Raspberry PI 3 for doing IoT 
+A web based simple interaction between the Particle.io IDE for the Photon or the Raspberry PI 3 for doing IoT 
 
 
-PI-index.html at https://hpssjellis.github.io/particle-photon-raspberry-pi-iot/pi-index.html
-
-Photon-index.html at https://hpssjellis.github.io/particle-photon-raspberry-pi-iot/photon-index.html
-
+Working webpage at https://hpssjellis.github.io/particle-photon-raspberry-pi-iot/
 
 
 
@@ -17,13 +14,13 @@ https://community.particle.io/t/raspberry-pi-3-with-touchscreen-and-camera-v2/29
 
 Not yet working Feb 25, 2017!
 
-Old but student tested version of theis repository at https://github.com/hpssjellis/spark-core-web-page-html-control
+Old but student tested version of this repository at https://github.com/hpssjellis/spark-core-web-page-html-control
 
 
 For use with the Particle-Photon or the Raspberry Pi using the https://www.particle.io/ IDE
 
 
-Flash the resecptive .ino to the Photon or Raspberry Pi and then run the respective -index.html web page.
+Flash the particle.ino to the Photon or Raspberry Pi and then run the index.html web page.
 
 Enter your access code and ID for your device (note this information is locally stored on your web browser and not sent for cloud storage)
 
