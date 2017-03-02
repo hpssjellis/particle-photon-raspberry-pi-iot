@@ -83,6 +83,8 @@ int myMain(String myCode) {
     
     int pinNumber = pinNumberString.toInt();
     
+    pinNumberString = pinNumberString.replace(" ", "");  // ditch spaces
+    
         // try  string.replace(" ", "");
         
         
