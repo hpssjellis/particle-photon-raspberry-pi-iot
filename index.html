@@ -4,7 +4,7 @@
 
 <font style="font-size:30px">
 
-<!-- ********************* DO NOT MESS WITH THIS ADVANCED STUFF -->
+<!-- ********************* DO NOT MESS WITH THIS ADVANCED AJAX STUFF -->
 <!-- ********************* Look at the bottom of the page for student area -->
 
 <script type="text/javascript">
@@ -199,21 +199,21 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
    
 
-<input type="button" value="d7:send:HIGH" onClick="{
-    sendToParticle('d7:send:1')
+<input type="button" value="d7:write=HIGH" onClick="{
+    sendToParticle('d7:send=1')
 }">
 
 
-<input type="button" value="d7:send:LOW" onClick="{
-    sendToParticle('d7:send:0')
+<input type="button" value="d7:write=LOW" onClick="{
+    sendToParticle('d7:send=0')
 }"><br>
 
-<input type="button" value="D0:send:1" onClick="{
-    sendToParticle('D0:send:1')
+<input type="button" value="D0:write=1" onClick="{
+    sendToParticle('D0:send=1')
 }">
 
-<input type="button" value="D0:send:0" onClick="{
-    sendToParticle('D0:send:0')
+<input type="button" value="D0:write=0" onClick="{
+    sendToParticle('D0:send=0')
 }">   <br>
 
 
@@ -233,23 +233,23 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
    
 
-<input type="button" value="A5:PWM!:0" onClick="{
-    sendToParticle('A5:PWM!:0')
+<input type="button" value="A5:PWM=0" onClick="{
+    sendToParticle('A5:PWM=0')
 }">
   
 
-<input type="button" value="A5:PWM!:100" onClick="{
-    sendToParticle('A5:PWM!:100')
+<input type="button" value="A5:PWM=100" onClick="{
+    sendToParticle('A5:PWM=100')
 }">
   
-<input type="button" value="A5:PWM!:255" onClick="{
-    sendToParticle('A5:PWM!:255')
+<input type="button" value="A5:PWM=255" onClick="{
+    sendToParticle('A5:PWM=255')
 }"><br><br><br><br>
      
    <h3>Delete the following after finished testing</h3>
 <!-- ********************* Delete the following when happy with your page -->     
    
-<input id="mySpecialIn" type=text value=""  placeholder="d7:send:high">
+<input id="mySpecialIn" type=text value=""  placeholder="d7:send=high">
 <input type="button" value="<--Submit" onClick="{
     sendToParticle(document.all.mySpecialIn.value)
 }"><br>
