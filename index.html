@@ -173,10 +173,10 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
  <input type="button" value="Activate Loop" onClick="{
     if (this.value == 'Activate Loop'){                                                 
-        sendToParticle('xx:loop:1') 
+        sendToParticle('loop(xx,1);') 
         this.value = 'Stop Looping'
     } else {
-        sendToParticle('xx:loop:0')  
+        sendToParticle('loop(xx,1);')  
         this.value = 'Activate Loop'
     }
 }"> Direct microprocessor looped control <br><br>
@@ -199,57 +199,57 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
    
 
-<input type="button" value="d7:send=HIGH" onClick="{
-    sendToParticle('d7:send=1')
+<input type="button" value="digitalWrite(D7,HIGH);" onClick="{
+    sendToParticle('digitalWrite(D7,HIGH);')
 }">
 
 
-<input type="button" value="d7:send=LOW" onClick="{
-    sendToParticle('d7:send=0')
+<input type="button" value="digitalWrite(D7,1);" onClick="{
+    sendToParticle('digitalWrite(D7,0);')
 }"><br>
 
-<input type="button" value="D0:write=1" onClick="{
-    sendToParticle('D0:write=1')
+<input type="button" value="digitalWrite(D0,1);" onClick="{
+    sendToParticle('digitalWrite(D7,1);')
 }">
 
-<input type="button" value="D0:write=0" onClick="{
-    sendToParticle('D0:write=0')
+<input type="button" value="digitalWrite(D0,0);" onClick="{
+    sendToParticle('digitalWrite(D0,0);')
 }">   <br>
 
 
    
    
    
-<input type="button" value="D6:read" onClick="{
-    sendToParticle('D6:read')
+<input type="button" value="digitalRead(D0);" onClick="{
+    sendToParticle('digitalRead(D0);')
 }"><br>
   
    
-<input type="button" value="A0:read" onClick="{
-    sendToParticle('A0:read')
-}">   Photon only, not on PI<br>
+<input type="button" value="analogRead(A0);" onClick="{
+    sendToParticle('analogRead(A0);')
+}">   Photon only, not on PI without connection trick<br>
      
    
    
    
 
-<input type="button" value="A5:PWM=0" onClick="{
-    sendToParticle('A5:PWM=0')
+<input type="button" value="analogWrite(A5,255);" onClick="{
+    sendToParticle('analogWrite(A5,255);')
 }">
   
 
-<input type="button" value="A5:PWM=100" onClick="{
-    sendToParticle('A5:PWM=100')
+<input type="button" value="analogWrite(A5,100);" onClick="{
+    sendToParticle('analogWrite(A5,100);')
 }">
   
-<input type="button" value="A5:PWM=255" onClick="{
-    sendToParticle('A5:PWM=255')
+<input type="button" value="analogWrite(A5,0);" onClick="{
+    sendToParticle('analogWrite(A5,0);')
 }"><br><br><br><br>
      
    <h3>Delete the following after finished testing</h3>
 <!-- ********************* Delete the following when happy with your page -->     
    
-<input id="mySpecialIn" type=text value=""  placeholder="d7:send=high">
+<input id="mySpecialIn" type=text value="digitalWrite(D7,1);"  placeholder="digitalWrite(D7,1);">
 <input type="button" value="<--Submit" onClick="{
     sendToParticle(document.all.mySpecialIn.value)
 }"><br>
