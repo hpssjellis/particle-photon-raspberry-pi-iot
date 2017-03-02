@@ -1,3 +1,4 @@
+
 //Web PI 
 
 // By Jeremy Ellis
@@ -91,10 +92,10 @@ int myMain(String myCode) {
     
     } else{   // photon  pin numbers
         
-    if (pinNumberString == "D0"){pinNumber = 0;}    
-    if (pinNumberString == "D1"){pinNumber = 1;}   
-    if (pinNumberString == "D2"){pinNumber = 2;}   
-    if (pinNumberString == "D3"){pinNumber = 3;}   
+    if (pinNumberString == "D0"){pinNumber = 0;}     // PWM
+    if (pinNumberString == "D1"){pinNumber = 1;}     // PWM
+    if (pinNumberString == "D2"){pinNumber = 2;}     // PWM if not A4
+    if (pinNumberString == "D3"){pinNumber = 3;}     // PWM if not A5
     if (pinNumberString == "D4"){pinNumber = 4;}    
     if (pinNumberString == "D5"){pinNumber = 5;}     
     if (pinNumberString == "D6"){pinNumber = 6;}    
@@ -103,12 +104,12 @@ int myMain(String myCode) {
     if (pinNumberString == "A1"){pinNumber = 11;}   
     if (pinNumberString == "A2"){pinNumber = 12;}    
     if (pinNumberString == "A3"){pinNumber = 13;}    
-    if (pinNumberString == "A4"){pinNumber = 14;}   // PWM
-    if (pinNumberString == "A5"){pinNumber = 15;}   // PWM 
+    if (pinNumberString == "A4"){pinNumber = 14;}      // PWM if not D2
+    if (pinNumberString == "A5"){pinNumber = 15;}      // PWM if Not D3
     if (pinNumberString == "A6"){pinNumber = 16;}   
-    if (pinNumberString == "A7"){pinNumber = 17;}     
-    if (pinNumberString == "RX"){pinNumber = 18;}      
-    if (pinNumberString == "TX"){pinNumber = 19;}     
+    if (pinNumberString == "A7"){pinNumber = 17;}      // PWM
+    if (pinNumberString == "RX"){pinNumber = 18;}      // PWM // PWM
+    if (pinNumberString == "TX"){pinNumber = 19;}      // PWM
    // if (pinNumberString == "BT"){pinNumber = 20;}    // BTN pin is 20 ??    
         
         
@@ -138,10 +139,23 @@ int myMain(String myCode) {
     String mySetStr = String(mySetWrite, DEC);
     
     if ( isPI ){
-       Particle.publish("PI", String(myActivity + " GPIO Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
+       Particle.publish("PI", String(myActivity + ", " + pinNumberString + " GPIO Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
     } else {
-       Particle.publish("photon", String(myActivity + " Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
+       Particle.publish("Photon", String(myActivity + ", " + pinNumberString + " Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // PUT YOUR OWN IF STATEMENT HERE
     // USE CODE 99:MINE:30
@@ -153,6 +167,21 @@ int myMain(String myCode) {
      return mySetWrite;     
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     if (myActivity == "LOOP"){   //xx:loop:1  sets loop to be on
         if (mySetWrite == 0) {myPiControl = false; }  
         if (mySetWrite == 1) {myPiControl = true; }  
@@ -163,7 +192,7 @@ int myMain(String myCode) {
     }   
     
   
-    
+    if ( isPI ){
     
     //if (pinNumber < 9) {   // digital pins activated
    
@@ -176,21 +205,56 @@ int myMain(String myCode) {
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
             return mySetWrite;
-        }        
+        }       
         
+         if (myActivity == "WRIT"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
+            pinMode(pinNumber, OUTPUT);
+            digitalWrite(pinNumber, mySetWrite);
+            return mySetWrite;
+        }           
         
-   // }  else {      // analog pins activated
+   } else
+   
+   {
+       if (pinNumber < 10){
+           if (myActivity == "READ"){    //digital read
+            pinMode(pinNumber, INPUT_PULLDOWN);
+            return digitalRead(pinNumber);
+        }
+        
+        if (myActivity == "SEND"){    //digital write
+            pinMode(pinNumber, OUTPUT);
+            digitalWrite(pinNumber, mySetWrite);
+            return mySetWrite;
+        }       
+        
+         if (myActivity == "WRIT"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
+            pinMode(pinNumber, OUTPUT);
+            digitalWrite(pinNumber, mySetWrite);
+            return mySetWrite;
+        }         
+       
+       } else {  // only photon has analog read pin numbers over 10
+       
+        if (myActivity == "READ"){    //Analog read     values 0-4095   
+                                      // strangely analogRead does not need pinMode() set
+            return analogRead(pinNumber);
+        }
+         
+           
+       }
+   }
     
     
     
-    // NO ANALOG READ on PI USE I2C INSTEAD ?????:???
-     //   if (myActivity == "READ"){    //Analog read
-          //  pinMode(pinNumber, INPUT_PULLUP); // stangely not needed on the photon
-       //     return analogRead(pinNumber);
-     //   }
+
         
    if ( isPI ){
-       // no analog read on the PI
+      // NO ANALOG READ on PI USE I2C INSTEAD ?????:???
+      //   if (myActivity == "READ"){    //Analog read
+      //  pinMode(pinNumber, INPUT_PULLUP); // stangely not needed on the photon
+      //     return analogRead(pinNumber);
+      //   }
        
    } else {
        if (pinNumber >= 10){
@@ -206,7 +270,7 @@ int myMain(String myCode) {
         
        
         
-    if ( isPI ){   // on PI PWM only on certain pins 13, 16, 18, 19 
+    if ( isPI ){   // PWM 0-255 on the PI only on certain pins 13, 16, 18, 19 
      if (pinNumber == 13 || pinNumber == 16 || pinNumber == 18 || pinNumber == 19 ){
         
         if (myActivity == "PWM!"){    //Analog Write
@@ -215,7 +279,7 @@ int myMain(String myCode) {
             return mySetWrite;
         }        
       }
-    } else {   // PWM on Photon
+    } else {   // PWM 0-255 on Photon only on these pins:  D0, D1, (A4 or D2), (A5 or D3), WKP=A7, RX, TX
         
        if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17    ){
             pinMode(pinNumber, OUTPUT);
@@ -224,6 +288,19 @@ int myMain(String myCode) {
         }   
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
 
