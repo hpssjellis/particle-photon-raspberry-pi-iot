@@ -145,7 +145,7 @@ Get this from the core area when logged in<br>
 <input id="myParameter" name="params" type=text  style="display:none"     size=50 placeholder="d7-send-high"> 
 
 Access Token:<input id="myToken" name="access_token" type=password size=50 placeholder="5622ce6bba702ef6bd3456d5ed26aaa4a28d7c9"> <br>
-Get this from the settings area when logged into <a href="http://particle.io/build">http://particle.io/build</a><br><br>
+Get this from the settings area when logged into <a href="http://particle.io/build">http://particle.io/build</a><br>
 
 
 
@@ -165,7 +165,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 
 
-<br><br>
+<hr><br>
 
 
 <div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br> 
@@ -182,7 +182,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
         sendToParticle('loop(xx,0);')  
         this.value = 'Activate Loop'
     }
-}"> Direct microprocessor looped control <br><br>
+}"> Direct microprocessor looped control <hr><br>
    
    
    
@@ -228,7 +228,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 <input type="button" value="digitalWrite(D0,0);" onClick="{
     sendToParticle('digitalWrite(D0,0);')
-}">   <br>
+}">   <br><br>
 
 
    
@@ -241,7 +241,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
 <input type="button" value="analogRead(A0);" onClick="{
     sendToParticle('analogRead(A0);')
-}">   Photon only, not on PI without capacitor trick<br>
+}">   Photon only, returns 0-4095<br>
      
    
    
@@ -258,8 +258,10 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
   
 <input type="button" value="analogWrite(A5,0);" onClick="{
     sendToParticle('analogWrite(A5,0);')
-}"> These are PWM <br><br><br><br>
+}"> These are PWM 0-255 <br><br><br><br>
      
+   
+   <hr>
    <h3>Delete the following after finished testing</h3>
 <!-- ********************* Delete the following when happy with your page -->     
    
