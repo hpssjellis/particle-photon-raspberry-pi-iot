@@ -301,15 +301,23 @@ Note: I have only mentioned GPIO pin numbers and not physical pin numbers to mak
 <h2 align=center>On the Photon</h2>
    
 <br>   
-Note: Analog sensors read from 0-4095<br><br>   
-Note: PWM  from 0 to 255 can only be easily acitvated on A4, A5 presently<br>
-   But can be activated with fancier code on either <br>
-D0, D1, A4, A5, WKP(A7), RX, TX<br>
+Note: Analog sensors A0-A7 read from 0-4095<br><br>   
+Note: PWM from 0 to 255 and works on the following 7 pins<br>
+D0, D1, (A4 or D2), (A5 or D3), WKP=A7, RX, TX<br>
 
-Or<br>
+ Serial - I2C<br> 
+D0 = SDA<br>
+D1 = SCL<br> <br>
 
-D0, D1, D2, D3, WKP(A7), RX, TX<br><br>
-   
+
+Serial - SPI <br>
+A5  = MOSI <br>
+A4  = MISO <br>
+A3  = SCLK <br> <br>
+
+Serial - UART <br> 
+TX  = TX <br>
+RX  = RX <br>  <br>  <br>     
    
 
 <!-- ********************* End Delete when finished editing. -->     
