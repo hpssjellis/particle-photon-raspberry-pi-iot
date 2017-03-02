@@ -6,21 +6,21 @@ Working webpage at https://hpssjellis.github.io/particle-photon-raspberry-pi-iot
 
 
 
-Blog about the journey at 
+A blog about the journey at 
 
 https://community.particle.io/t/raspberry-pi-3-with-touchscreen-and-camera-v2/29378/
 
 
 
-Not yet working Feb 25, 2017!
+
 
 Old but student tested version of this repository at https://github.com/hpssjellis/spark-core-web-page-html-control
 
 
-For use with the Particle-Photon or the Raspberry Pi using the https://www.particle.io/ IDE
+###Steps
 
 
-Flash the particle.ino to the Photon or Raspberry Pi and then run the index.html web page.
+Flash the rocksetta.ino to the Photon or Raspberry Pi and then run the index.html web page.
 
 Enter your access code and ID for your device (note this information is locally stored on your web browser and not sent for cloud storage)
 
@@ -39,7 +39,7 @@ Then edit the buttons as needed for your device.
 
 Advanced:
 
-Change the web page name to just index.html and upload to https://build.phonegap.com/ to make an Android, Windows or iOS App. (Note: iOS has a yearly fee of $100.00)
+Upload the github site to https://build.phonegap.com/ to make an Android, Windows or iOS App. (Note: iOS has a yearly fee of $100.00)
 
 
 
