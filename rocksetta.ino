@@ -61,42 +61,33 @@ int myMain(String myCode) {
     
     //myActivity -- pinNumber -- myOptional
     
+    // Following is a bunch of code to sperate the above statment
     
-    
-   // int pinNumber = pinNumber2.toInt();
+
    int myComma = myCode.indexOf(",");   // find the comma
    if (myComma == -1) {myComma = myCode.indexOf(")");} //if no comma use end brackets
    
-   int myOpenBracket = myCode.indexOf("(");
+   int myOpenBracket = myCode.indexOf("(");  // find first baracket
     
     String  myActivity = myCode.substring(0, myOpenBracket);     // grab characters until bracket
     
-
-    String pinNumberString = myCode.substring(myOpenBracket+1, myComma);   // for PI 2 digit GPIO numbers
-    
-    
-    
+    String pinNumberString = myCode.substring(myOpenBracket+1, myComma);   // Grab the PIN Characters D7 etc
     
     String myOptional = myCode.substring(myComma + 1);   //grabs the numbers after the equal sign   
-   // if (pinNumber< 0 || pinNumber >7) return -1; 
-   // if (myCode.startsWith("A")){pinNumber = pinNumber+10;}  //+10 is for analog numbers
-   
+ 
     myOptional = myOptional.replace(");", "");  // get rid of the ); at the end
-   
-   
+    
+   // for testing
    // Particle.publish(myActivity, String(pinNumberString + ", "+myOptional), 60, PRIVATE);  
     
     int pinNumber = pinNumberString.toInt();
     
     pinNumberString = pinNumberString.replace(" ", "");  // ditch spaces
-    
-        // try  string.replace(" ", "");
+
         
-        
-     int mySetWrite = 0;       
+    int mySetWrite = 0;       
      
-     
-       
+      
     if(myOptional == "HIGH") {mySetWrite = 1;}
         else if(myOptional == "LOW") {mySetWrite = 0; }
             else if(myOptional == "ON") {mySetWrite = 1;}
@@ -104,17 +95,10 @@ int myMain(String myCode) {
                    else {mySetWrite = myOptional.toInt();  }  // sets  write value
       
      
-     
-     
-     
-     
 #if (PLATFORM_ID == 31) 
   // only compile following Raspberry PI stuff
   
-  
-  
-  
-    
+
     if (pinNumberString == "D0"){pinNumber = 4;}    
     if (pinNumberString == "D1"){pinNumber = 17;}    
     if (pinNumberString == "D2"){pinNumber = 27;}    
@@ -132,14 +116,6 @@ int myMain(String myCode) {
     if (pinNumberString == "A6"){pinNumber = 20;}    
     if (pinNumberString == "A7"){pinNumber = 21;}    
     
-    
-  //  String myPinStr = String(pinNumber, DEC);
-  //  String mySetStr = String(mySetWrite, DEC);
-    
-
-  //  Particle.publish("PI", String(myActivity + ", " + pinNumberString + " GPIO Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
-
-
 
 #else 
   // only compile following Photon Stuff
@@ -164,24 +140,12 @@ int myMain(String myCode) {
     if (pinNumberString == "TX"){pinNumber = 19;}      // PWM
    // if (pinNumberString == "BT"){pinNumber = 20;}    // BTN pin is 20 ??    
    
-  //  String myPinStr = String(pinNumber, DEC);
-  //  String mySetStr = String(mySetWrite, DEC);
-    
-  //  Particle.publish("Photon", String(myActivity + ", " + pinNumberString + " Pin = " + myPinStr + " set to " + mySetStr ), 60, PRIVATE);  
-  
-  // Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-  // String(pinNumber, DEC) + " set to " + String(mySetWrite, DEC) ), 60, PRIVATE);  
-    
-     
 
 #endif
      
-     
-     
-   
     
     // PUT YOUR OWN IF STATEMENT HERE
-    // USE CODE 99:MINE:30
+    // USE CODE     mine(xx,5);
     if (myActivity == "MINE"){ 
           
           
@@ -199,7 +163,10 @@ int myMain(String myCode) {
         } else {
             mySetWrite = 6;  // Photon 
           }
-          
+        
+        Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+        
      return mySetWrite;     
     }     
     
@@ -209,7 +176,9 @@ int myMain(String myCode) {
         if (mySetWrite == 0) {myPiControl = false; }  
         if (mySetWrite == 1) {myPiControl = true; }  
           
-          // Your special code here
+        
+        Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
           
      return mySetWrite;     
     }   
@@ -225,19 +194,22 @@ int myMain(String myCode) {
    
         if (myActivity == "DIGITALREAD"){    //digital read
             pinMode(pinNumber, INPUT_PULLDOWN);
-           // Particle.publish("READ VALUE", String(digitalRead(pinNumber)), 60, PRIVATE);  
             mySetWrite = digitalRead(pinNumber);
+            
             Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            
             return mySetWrite;  
         }
         
         
-         if (myActivity == "DIGITALWRITE"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
+         if (myActivity == "DIGITALWRITE"){    //digital write    
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
+            
             Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            
             return mySetWrite;
         }   
         
@@ -248,8 +220,10 @@ int myMain(String myCode) {
         if (myActivity == "ANALOGWRITE"){    //Analog Write
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
+            
             Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+            
             return mySetWrite;
         }        
       }
@@ -259,10 +233,11 @@ int myMain(String myCode) {
        if (pinNumber < 10){
            if (myActivity == "DIGITALREAD"){    //digital read
               pinMode(pinNumber, INPUT_PULLDOWN);
-              // Particle.publish("Digital Read Value", String(digitalRead(pinNumber)), 60, PRIVATE);  
               mySetWrite = digitalRead(pinNumber);
+              
               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-              String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+                 String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+              
               return mySetWrite;  
         }
         
@@ -271,17 +246,17 @@ int myMain(String myCode) {
          if (myActivity == "DIGITALWRITE"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
+            
             Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            
             return mySetWrite;
         }         
        
        } else {  // only photon has analog read pin numbers over 10
        
         if (myActivity == "ANALOGREAD"){    //Analog read     values 0-4095   
-                                      // strangely analogRead does not need pinMode() set
-           // Particle.publish("Analog read value", String(analogRead(pinNumber)), 60, PRIVATE);  
-           // return analogRead(pinNumber);
+
             mySetWrite = analogRead(pinNumber);  
             Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
             String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
@@ -295,9 +270,11 @@ int myMain(String myCode) {
        if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17   || pinNumber == 18  || pinNumber == 19   ){
         if (myActivity == "ANALOGWRITE"){    //Analog Write
             pinMode(pinNumber, OUTPUT);
-            analogWrite(pinNumber,  mySetWrite);            
+            analogWrite(pinNumber,  mySetWrite);  
+            
             Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+            
             return mySetWrite;
         } 
        }    
