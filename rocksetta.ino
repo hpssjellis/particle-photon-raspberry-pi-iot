@@ -1,4 +1,5 @@
 
+
 //Web PI 
 
 // By Jeremy Ellis
@@ -54,12 +55,12 @@ int myMain(String myCode) {
     // used send instead of write since I needed it to be 4 characters long.
     
 
-    // d7:send:1 or d7:send:high or d7:send:on    to turn on D7
-    // d7:send:0   or d7:send:low  or d7:send:off to tuurn off D7
+    // d7:write=1 or d7:send:high or d7:send:on    to turn on D7
+    // d7:write=0   or d7:send:low  or d7:send:off to tuurn off D7
     // d5:read    read D5
 
-    // a0:send:0     turn A0 off
-    // a0:send:255   turn A0 maximum
+    // a5:PWM=0     turn A5  PWM off
+    // a5:PWM=255   turn A5 PWM maximum
   
      
     // Block sets pinNumber for digital 0-7 or analog 10-17 from the number
@@ -124,7 +125,11 @@ int myMain(String myCode) {
      
     
     //Following sets the 7 and on characters to integers
-    String myOptional = myCode.substring(8);      
+    
+    // try string.charAt(n)
+    //string.indexOf(val)
+    
+    String myOptional = myCode.substring(myCode.indexOf("="));   //grabs the numbers after the equal sign   
     if(myOptional == "HIGH") {mySetWrite = 1;}
         else if(myOptional == "LOW") {mySetWrite = 0; }
             else if(myOptional == "ON") {mySetWrite = 1;}
@@ -198,6 +203,7 @@ int myMain(String myCode) {
    
         if (myActivity == "READ"){    //digital read
             pinMode(pinNumber, INPUT_PULLDOWN);
+            Particle.publish("READ VALUE", String(digitalRead(pinNumber)), 60, PRIVATE);  
             return digitalRead(pinNumber);
         }
         
@@ -219,6 +225,7 @@ int myMain(String myCode) {
        if (pinNumber < 10){
            if (myActivity == "READ"){    //digital read
             pinMode(pinNumber, INPUT_PULLDOWN);
+            Particle.publish("Digital Read Value", String(digitalRead(pinNumber)), 60, PRIVATE);  
             return digitalRead(pinNumber);
         }
         
@@ -238,6 +245,7 @@ int myMain(String myCode) {
        
         if (myActivity == "READ"){    //Analog read     values 0-4095   
                                       // strangely analogRead does not need pinMode() set
+            Particle.publish("Analog read value", String(digitalRead(pinNumber)), 60, PRIVATE);  
             return analogRead(pinNumber);
         }
          
@@ -248,23 +256,7 @@ int myMain(String myCode) {
     
     
 
-        
-   if ( isPI ){
-      // NO ANALOG READ on PI USE I2C INSTEAD ?????:???
-      //   if (myActivity == "READ"){    //Analog read
-      //  pinMode(pinNumber, INPUT_PULLUP); // stangely not needed on the photon
-      //     return analogRead(pinNumber);
-      //   }
-       
-   } else {
-       if (pinNumber >= 10){
-        if (myActivity == "READ"){    //Analog read     values 0-4095   
-                                      // strangely analogRead does not need pinMode() set
-            return analogRead(pinNumber);
-        }
-       }    
-       
-   }     
+
         
         
         
@@ -281,7 +273,7 @@ int myMain(String myCode) {
       }
     } else {   // PWM 0-255 on Photon only on these pins:  D0, D1, (A4 or D2), (A5 or D3), WKP=A7, RX, TX
         
-       if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17    ){
+       if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17   || pinNumber == 18  || pinNumber == 19   ){
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
             return mySetWrite;
