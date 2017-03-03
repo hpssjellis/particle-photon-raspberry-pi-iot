@@ -166,14 +166,13 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 
 
 
-<hr><br>
+<br><br>
 
 
-<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><br> 
    
  <input type="button" value="WHOAMI" onClick="{
     sendToParticle('WHOAMI(xx,1)')
-}"> 31=Raspberry PI, 6=Photon<br><br>   
+}"> 31=Raspberry PI, 6=Photon<br>  
    
  <input type="button" value="Activate Loop" onClick="{
     if (this.value == 'Activate Loop'){                                                 
@@ -183,11 +182,12 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
         sendToParticle('loop(xx,0);')  
         this.value = 'Activate Loop'
     }
-}"> Direct microprocessor looped control <hr><br>
+}"> Direct microprocessor looped control <br><br>
    
    
    
-   
+  
+<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><hr><br> 
    
    
    
