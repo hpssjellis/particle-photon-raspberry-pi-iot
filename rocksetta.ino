@@ -1,16 +1,29 @@
+// rocksetta.ino
 
-//Web PI 
+// For web control of the Particle.io Photon or
+// The raspberry PI
+// MIT license
+
 
 // By Jeremy Ellis
+// Twitter: @rocksetta
+// Website: http://www.rocksetta.com
+
+
 
 
 //PUT YOUR VARIABLES HERE
 
+bool ShowConsoleMessages = true;  // When your app is fine set this false.
 
-bool myPiControl = false;   // You may want this to be true so that the 
-                            // PI Loop controls an actuator at startup
-bool isPI = false;  
-String myDevice = "Photon";   // default is the Photon
+bool myAutoControl = false;   // You may want this to be true so that the 
+                            // Special Loop controls something at startup
+                            
+                            
+                            
+                            
+bool isPI = false;            // don't change auto detected at compile.
+String myDevice = "Photon";   // don't change, default is the Photon
 
 
 void setup(){
@@ -18,17 +31,21 @@ void setup(){
     if (PLATFORM_ID == 31){
         isPI = true; 
          myDevice = "Raspberry Pi";
+         if ( ShowConsoleMessages  ){ 
+             Particle.publish("Using", "Raspberry PI", 60, PRIVATE);   
+         } // end if show console
+        } else  {
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish("Using", "Photon, Core or electron", 60, PRIVATE);   
+            } // end if show console
         }
     
-    Spark.function("my-main", myMain);  
+    Particle.function("my-main", myMain);  
     
     //PUT YOUR SETUP CODE HERE. Note: Only three more functions allowed!
     // test everything using the return int from a function!
-      
-  
-    //RGB.control(true);
-    //RGB.color(0, 255, 255);  //cyan
-    RGB.brightness(1);    // 1=very low light, 255 = max
+
+    RGB.brightness(5);    // 1=very low light, 255 = max
     
     
 
@@ -39,13 +56,15 @@ void loop(){
     
     //PUT YOUR GENERIC LOOP CODE HERE
     
-    if ( myPiControl ){
+    if ( myAutoControl ){
     
-    //PUT YOUR SPECIAL LOOP CODE HERE 
-    
-       // delete the following two lines when operational 
-       Particle.publish("Special Loop", "Active", 60, PRIVATE);  
-       delay(5000);
+     //PUT YOUR SPECIAL LOOP CODE HERE 
+    if ( ShowConsoleMessages  ){ 
+        Particle.publish("Special Loop", "Active", 60, PRIVATE);  
+        delay(5000);
+    } // end if show console   
+
+
     
     }
 
@@ -111,8 +130,8 @@ int myMain(String myCode) {
     if (pinNumberString == "A1"){pinNumber = 23;}    
     if (pinNumberString == "A2"){pinNumber = 24;}    
     if (pinNumberString == "A3"){pinNumber = 25;}    
-    if (pinNumberString == "A4"){pinNumber = 12;}    
-    if (pinNumberString == "A5"){pinNumber = 16;}    // PWM    
+    if (pinNumberString == "A4"){pinNumber = 12;}    // PWM (Working)
+    if (pinNumberString == "A5"){pinNumber = 16;}    // PWM (not working)   
     if (pinNumberString == "A6"){pinNumber = 20;}    
     if (pinNumberString == "A7"){pinNumber = 21;}    
     
@@ -160,21 +179,34 @@ int myMain(String myCode) {
     if (myActivity == "WHOAMI"){   // which microprocessor
         if ( isPI ){ 
             mySetWrite = 31;   //raspberry PI
+         if ( ShowConsoleMessages  ){ 
+             Particle.publish("Using", "Raspberry PI", 60, PRIVATE);   
+         } // end if show console            
         } else {
             mySetWrite = 6;  // Photon 
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish("Using", "Photon, Core or electron", 60, PRIVATE);   
+            } // end if show console            
           }
-        
-        Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
-        
+
      return mySetWrite;     
     }     
     
   
     
     if (myActivity == "LOOP"){   //xx:loop:1  sets loop to be on
-        if (mySetWrite == 0) {myPiControl = false; }  
-        if (mySetWrite == 1) {myPiControl = true; }  
+        if (mySetWrite == 0) {
+            myAutoControl = false; 
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish("Looping", "Auto loop turned off" , 60, PRIVATE); 
+            } // end if show console    
+        }  
+        if (mySetWrite == 1) {
+            myAutoControl = true;
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish("Looping", "Auto loop turned on" , 60, PRIVATE); 
+            } // end if show console    
+        }  
           
         
         Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
@@ -195,9 +227,10 @@ int myMain(String myCode) {
         if (myActivity == "DIGITALREAD"){    //digital read
             pinMode(pinNumber, INPUT_PULLDOWN);
             mySetWrite = digitalRead(pinNumber);
-            
-            Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+                  String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+             } // end if show console             
             
             return mySetWrite;  
         }
@@ -206,27 +239,52 @@ int myMain(String myCode) {
          if (myActivity == "DIGITALWRITE"){    //digital write    
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
-            
-            Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+                   String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            } // end if show console                  
             
             return mySetWrite;
         }   
         
         
         // PWM 0-255 on the PI only on certain pins 13, 16, 18, 19 
-    if (pinNumber == 13 || pinNumber == 16 || pinNumber == 18 || pinNumber == 19 ){
         
         if (myActivity == "ANALOGWRITE"){    //Analog Write
+          if (pinNumber == 13 || pinNumber == 16 || pinNumber == 18 || pinNumber == 19 ){
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+                  String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
             
-            Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
-            
+            } // end if show console              
+
             return mySetWrite;
-        }        
-      }
+        }  else {
+            
+            
+         if ( ShowConsoleMessages  ){ 
+               Particle.publish("Error", "Wrong PI Pin number for AnalogWrite" , 60, PRIVATE); 
+         } // end if show console     
+           }         
+      } // end if analogWrite
+      
+      
+            if (myActivity == "ANALOGREAD"){    //NOT on PI
+
+            mySetWrite = analogRead(pinNumber);  
+           
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish("Error", "Use DigitalRead, PI does not do Analog Read" , 60, PRIVATE); 
+
+            } // end if show console                  
+
+            return mySetWrite;  
+        }
+      
+      
+      
 
 #else 
   // only compile following Photon Stuff
@@ -234,10 +292,12 @@ int myMain(String myCode) {
            if (myActivity == "DIGITALREAD"){    //digital read
               pinMode(pinNumber, INPUT_PULLDOWN);
               mySetWrite = digitalRead(pinNumber);
-              
-              Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
                  String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
               
+            } // end if show console                
+
               return mySetWrite;  
         }
         
@@ -246,10 +306,11 @@ int myMain(String myCode) {
          if (myActivity == "DIGITALWRITE"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
-            
-            Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
-            
+           if ( ShowConsoleMessages  ){ 
+              Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+                 String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+           } // end if show console               
+
             return mySetWrite;
         }         
        
@@ -258,25 +319,35 @@ int myMain(String myCode) {
         if (myActivity == "ANALOGREAD"){    //Analog read     values 0-4095   
 
             mySetWrite = analogRead(pinNumber);  
-            Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-            String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+           
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+                   String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+
+            } // end if show console                  
 
             return mySetWrite;  
         }
          
          
        // PWM 0-255 on Photon only on these pins:  D0, D1, (A4 or D2), (A5 or D3), WKP=A7, RX, TX
-        
-       if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17   || pinNumber == 18  || pinNumber == 19   ){
-        if (myActivity == "ANALOGWRITE"){    //Analog Write
+       if (myActivity == "ANALOGWRITE"){    //Analog Write 
+          if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17   || pinNumber == 18  || pinNumber == 19   ){
+       
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);  
-            
-            Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
-                String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
+            if ( ShowConsoleMessages  ){ 
+               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+                    String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            } // end if show console        
             
             return mySetWrite;
-        } 
+         }
+         if ( ShowConsoleMessages  ){ 
+               Particle.publish("Error", "Wrong Photon Pin number for AnalogWrite" , 60, PRIVATE); 
+         } // end if show console      
+         
+         
        }    
          
            
@@ -288,20 +359,5 @@ int myMain(String myCode) {
  
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
