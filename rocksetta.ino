@@ -72,6 +72,8 @@ void loop(){
 
 int myMain(String myCode) {
     
+    myDevice += " " + myCode;   // add to the device name whatever was sent to particle for the console  
+    
     myCode.toUpperCase();           // set argument to uppercase
     
 
@@ -89,6 +91,7 @@ int myMain(String myCode) {
    int myOpenBracket = myCode.indexOf("(");  // find first baracket
     
     String  myActivity = myCode.substring(0, myOpenBracket);     // grab characters until bracket
+  //  String  myActivity = myCode.substring(0, myOpenBracket);     // grab characters until bracket
     
     String pinNumberString = myCode.substring(myOpenBracket+1, myComma);   // Grab the PIN Characters D7 etc
     
