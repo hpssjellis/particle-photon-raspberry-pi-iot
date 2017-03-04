@@ -17,8 +17,8 @@
 bool ShowConsoleMessages = true;  // When your app is fine set this false.
 
 bool myAutoControl = false;   // You may want this to be true so that the 
-                            // Special Loop controls something at startup
-                            
+                              // Special Loop controls something at startup
+bool myCommandGood = false;   // for sending an error message if no command was read.                          
                             
                             
                             
@@ -71,8 +71,9 @@ void loop(){
 }
 
 int myMain(String myCode) {
+    myCommandGood = false;
     
-    myDevice += " " + myCode;   // add to the device name whatever was sent to particle for the console  
+    String myDevicePlus = myDevice + " " + myCode;   // add to the device name whatever was sent to particle for the console  
     
     myCode.toUpperCase();           // set argument to uppercase
     
@@ -169,7 +170,7 @@ int myMain(String myCode) {
     // PUT YOUR OWN IF STATEMENT HERE
     // USE CODE     mine(xx,5);
     if (myActivity == "MINE"){ 
-          
+        myCommandGood = true;  // this command processed          
           
           // Your special code here
           
@@ -180,6 +181,7 @@ int myMain(String myCode) {
    
      
     if (myActivity == "WHOAMI"){   // which microprocessor
+        myCommandGood = true;  // this command processed
         if ( isPI ){ 
             mySetWrite = 31;   //raspberry PI
          if ( ShowConsoleMessages  ){ 
@@ -198,6 +200,7 @@ int myMain(String myCode) {
   
     
     if (myActivity == "LOOP"){   //xx:loop:1  sets loop to be on
+        myCommandGood = true;  // this command processed
         if (mySetWrite == 0) {
             myAutoControl = false; 
             if ( ShowConsoleMessages  ){ 
@@ -212,7 +215,7 @@ int myMain(String myCode) {
         }  
           
         
-        Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+        Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
             String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
           
      return mySetWrite;     
@@ -228,10 +231,11 @@ int myMain(String myCode) {
   // only compile following Raspberry PI stuff
    
         if (myActivity == "DIGITALREAD"){    //digital read
+            myCommandGood = true;  // this command processed
             pinMode(pinNumber, INPUT_PULLDOWN);
             mySetWrite = digitalRead(pinNumber);
             if ( ShowConsoleMessages  ){ 
-               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+               Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                   String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
              } // end if show console             
             
@@ -239,11 +243,12 @@ int myMain(String myCode) {
         }
         
         
-         if (myActivity == "DIGITALWRITE"){    //digital write    
+         if (myActivity == "DIGITALWRITE"){    //digital write   
+            myCommandGood = true;  // this command processed
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
             if ( ShowConsoleMessages  ){ 
-               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+               Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                    String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
             } // end if show console                  
             
@@ -254,11 +259,12 @@ int myMain(String myCode) {
         // PWM 0-255 on the PI only on certain pins 13, 16, 18, 19 
         
         if (myActivity == "ANALOGWRITE"){    //Analog Write
+          myCommandGood = true;  // this command processed
           if (pinNumber == 13 || pinNumber == 16 || pinNumber == 18 || pinNumber == 19 ){
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);
             if ( ShowConsoleMessages  ){ 
-               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+               Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                   String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE);  
             
             } // end if show console              
@@ -274,7 +280,8 @@ int myMain(String myCode) {
       } // end if analogWrite
       
       
-            if (myActivity == "ANALOGREAD"){    //NOT on PI
+        if (myActivity == "ANALOGREAD"){    //NOT on PI
+            myCommandGood = true;  // this command processed
 
             mySetWrite = analogRead(pinNumber);  
            
@@ -293,10 +300,11 @@ int myMain(String myCode) {
   // only compile following Photon Stuff
        if (pinNumber < 10){
            if (myActivity == "DIGITALREAD"){    //digital read
+              myCommandGood = true;  // this command processed
               pinMode(pinNumber, INPUT_PULLDOWN);
               mySetWrite = digitalRead(pinNumber);
             if ( ShowConsoleMessages  ){ 
-               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+               Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                  String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
               
             } // end if show console                
@@ -307,10 +315,11 @@ int myMain(String myCode) {
    
         
          if (myActivity == "DIGITALWRITE"){    //digital write   D3:writeHIGH  to fit the 5th letter miss the final colon
+            myCommandGood = true;  // this command processed
             pinMode(pinNumber, OUTPUT);
             digitalWrite(pinNumber, mySetWrite);
            if ( ShowConsoleMessages  ){ 
-              Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+              Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                  String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
            } // end if show console               
 
@@ -320,11 +329,11 @@ int myMain(String myCode) {
        } else {  // only photon has analog read pin numbers over 10
        
         if (myActivity == "ANALOGREAD"){    //Analog read     values 0-4095   
-
+            myCommandGood = true;  // this command processed
             mySetWrite = analogRead(pinNumber);  
            
             if ( ShowConsoleMessages  ){ 
-               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+               Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                    String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
 
             } // end if show console                  
@@ -335,12 +344,13 @@ int myMain(String myCode) {
          
        // PWM 0-255 on Photon only on these pins:  D0, D1, (A4 or D2), (A5 or D3), WKP=A7, RX, TX
        if (myActivity == "ANALOGWRITE"){    //Analog Write 
+          myCommandGood = true;  // this command processed
           if (pinNumber == 0 || pinNumber == 1 || pinNumber == 2 || pinNumber == 3    || pinNumber == 14  || pinNumber == 15  || pinNumber == 17   || pinNumber == 18  || pinNumber == 19   ){
        
             pinMode(pinNumber, OUTPUT);
             analogWrite(pinNumber,  mySetWrite);  
             if ( ShowConsoleMessages  ){ 
-               Particle.publish(myDevice, String(myActivity + ", " + pinNumberString + " Pin = " + 
+               Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
                     String(pinNumber, DEC) + " returning = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
             } // end if show console        
             
@@ -358,6 +368,22 @@ int myMain(String myCode) {
        
 #endif  
     
+   
+   
+   
+   
+   if ( myCommandGood ){   
+          // a command was done so all is good.
+       } else {
+           // No command was done so must be an error
+          Particle.publish( myDevicePlus    , "Error: This command not understood!", 60, PRIVATE);  
+          pinMode(D7, OUTPUT);
+          digitalWrite(D7, HIGH);
+          delay(50);                 
+          digitalWrite(D7, LOW);
+       }
+   
+   
     
  
     
