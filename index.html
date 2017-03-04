@@ -158,7 +158,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
 <input type="button" value="Store the Photon's Token and ID locally!" onClick="{
    localStorage.setItem('myStoredText1', document.all.myToken.value)   
    localStorage.setItem('myStoredText2', document.all.myDeviceId.value)
-   alert( document.all.myToken.value + ' ' +document.all.myDeviceId.value + ' \nHas been stored')
+   alert('Device ID =' document.all.myDeviceId.value +'\nAccess Token='+ document.all.myToken.value +' \nHas been stored')
 }">
 
 
@@ -187,7 +187,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
    
    
   
-<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><hr><br> 
+<div width="400" height="200" name="myDivName" id="myDivId"> output here </div><hr>
    
    
    
@@ -259,7 +259,7 @@ Note that Advanced users can also use the pin numbers, so D7 = 7 on Photon but G
   
 <input type="button" value="analogWrite(A4,0);" onClick="{
     sendToParticle('analogWrite(A4,0);')
-}"> These are PWM 0-255 <br><br><br><br>
+}"> These are PWM 0-255 <br><br>
      
    
    <hr>
@@ -277,7 +277,7 @@ If using a sensor edit the below code to set your values to a correct amount wit
   var myTemp = parseFloat(getElementById('myDivId').innerHTML)
   document.all.myCalc1.value = (myTemp * 3.3 / 4095).toFixed(2);   // edit this to test your data
 }">
-: <input type=text id="myCalc1" value=0 size=5>Volts <br><br><br>    
+: <input type=text id="myCalc1" value=0 size=5>Volts <hr><br>    
    
    
 
@@ -308,7 +308,7 @@ Note: I have only mentioned GPIO pin numbers and not physical pin numbers to mak
 
 
 
-<br>
+<hr>
 <h2 align=center>On the Photon</h2>
    
    <img  width="900" src="http://rocksetta.com/spark-core-photon/photon-pins.png"><br><br>
