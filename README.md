@@ -15,7 +15,7 @@ See the Video at
 https://youtu.be/h5NnSbo351I
 
 
-[![Instructional video](http://img.youtube.com/vi/h5NnSbo351I/0.jpg)](https://youtu.be/-CyKv4UC1OA)
+[![Instructional video](http://img.youtube.com/vi/h5NnSbo351I/0.jpg)](https://youtu.be/h5NnSbo351I)
 
 
 
