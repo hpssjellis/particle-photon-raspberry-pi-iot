@@ -2,15 +2,15 @@
 <widget xmlns   = "http://www.w3.org/ns/widgets"
     xmlns:gap   = "http://phonegap.com/ns/1.0"
     id          = "com.yoursite.basicparticle"
-    version     = "1.02.12" >      <!-- Change this before each compile -->
+    version     = "1.02.03" >      <!-- Change this before each compile -->
 
-  <name>basic-particle-ajax</name>
+  <name>Particle-Communication</name>
   <description>
       An example for phonegap build docs.
   </description>
   
   <author href="https://yoursite.com" email="you@gmail.com">
-      wildabeast
+      yourName
   </author>
   
   
@@ -18,7 +18,7 @@
 
   
   <!-- all platforms -->
-  <preference name="phonegap-version" value="cli-6.3.0" />  
+  <preference name="phonegap-version" value="cli-6.5.0" />  
  <!-- 
   <preference name="phonegap-version" value="3.7.0" />
   <preference name="phonegap-version" value="cli-6.3.0" />  
@@ -31,9 +31,7 @@
 
 
   <!-- Android only -->
-  <preference name="android-minSdkVersion" value="14" />
-  <preference name="android-maxSdkVersion" value="24" />
-  <preference name="android-targetSdkVersion" value="19" />
+
   <preference name="android-installLocation" value="auto" />
   
   
