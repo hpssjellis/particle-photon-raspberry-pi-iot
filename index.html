@@ -219,7 +219,7 @@ Get this from the settings area when logged into <a href="http://particle.io/bui
     sendToParticle('digitalWrite(d7,0);')
 }"><br><br>
 
-Note that Advanced users can also use the pin numbers, so D7 = 7 on Photon but GPIO 19 on the Raspberry PI<br><br>   
+Note that Advanced users can also use the pin numbers, so D7 = pin 7 on Photon but D7 = GPIO 19 on the Raspberry PI<br><br>   
    
    
    
@@ -242,7 +242,7 @@ Note that Advanced users can also use the pin numbers, so D7 = 7 on Photon but G
    
 <input type="button" value="analogRead(A0);" onClick="{
     sendToParticle('analogRead(A0);')
-}">   Photon only, returns 0-4095<br>
+}">   Photon Direct Analog input, PI uses capactive Input both returns 0-4095<br>
      
    
    
@@ -280,34 +280,6 @@ If using a sensor edit the below code to set your values to a correct amount wit
 : <input type=text id="myCalc1" value=0 size=5>Volts <hr><br>    
    
    
-
-
-<h2 align=center>For the Raspberry PI</h2>
-GPIO pins at:  2-27 Some are preset pull-up.<br>
-Note: PWM! only at GPIO pins:  13, 16,  18,  19  <br><br>
- 
-Serial - I2C<br> 
-GPIO 2 = SDA<br>
-GPIO 3 = SCL<br> <br>
-
-
-Serial - SPI <br>
-GPIO 10 = MOSI <br>
-GPIO 9  = MISO <br>
-GPIO 11 = SCLK <br> <br>
-
-Serial-UART <br> 
-GPIO 8  = TX <br>
-GPIO 10 = RX <br>  <br>  <br>   
-   
-   
-Note: I have only mentioned GPIO pin numbers and not physical pin numbers to make things less confusing. Lookup the Pin numbers<br><br>
-  
-   <img  width="500" src="http://rocksetta.com/spark-core-photon/gpio05.png"><br><br>
-   <img  width="600" src="http://rocksetta.com/spark-core-photon/chart05.png"><br><br>
-
-
-
 <hr>
 <h2 align=center>On the Photon</h2>
    
@@ -331,6 +303,40 @@ Serial - UART <br>
 TX  = Serial Pin 1 <br>
 RX  = Serial Pin 2 <br>  <br>  <br>     
    
+
+<h2 align=center>For the Raspberry PI</h2>
+GPIO pins at:  2-27 Some are preset pull-up.<br>
+Note: PWM! only at GPIO pins:  13, 16,  18,  19  <br><br>
+ 
+Note: The Raspberry PI does not have analogRead ability, so I have tricked the PIinto thinking A0-A7 are Analog Reads by assuming a 
+   capacitor is being used and a very fast loop is counting the number of loops until the capacitor is charged. <br>
+   The circuit goes: 3V3 --> variable resistor --> (Branching to GPIO pin ) --> 0.10 uF Capacitor --> 100 ohm resistor --> GND <br>
+    
+   
+   
+Serial - I2C<br> 
+GPIO 2 = SDA<br>
+GPIO 3 = SCL<br> <br>
+
+
+Serial - SPI <br>
+GPIO 10 = MOSI <br>
+GPIO 9  = MISO <br>
+GPIO 11 = SCLK <br> <br>
+
+Serial-UART <br> 
+GPIO 8  = TX <br>
+GPIO 10 = RX <br>  <br>  <br>   
+   
+   
+Note: I have only mentioned GPIO pin numbers and not physical pin numbers to make things less confusing. Lookup the Pin numbers<br><br>
+  
+   <img  width="500" src="http://rocksetta.com/spark-core-photon/gpio05.png"><br><br>
+   <img  width="600" src="http://rocksetta.com/spark-core-photon/chart05.png"><br><br>
+
+
+
+<hr>
 
 <!-- ********************* End Delete when finished editing. -->  
 By Jeremy Ellis<br>
