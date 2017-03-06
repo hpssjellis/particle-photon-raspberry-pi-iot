@@ -1,5 +1,6 @@
 // rocksetta.ino
 
+
 // For web control of the Particle.io Photon or
 // The raspberry PI
 // MIT license
@@ -282,13 +283,37 @@ int myMain(String myCode) {
       
         if (myActivity == "ANALOGREAD"){    //NOT on PI
             myCommandGood = true;  // this command processed
+            int myCounter = 0;
+            
+            // for capacitor method on Raspberry PI  
+            //   3V3 --> Variable Resistor (parallel line to PinNumber) --> ~0.1 uf Capacitor --> 100 ohm resistor --> GND 
+            pinMode(pinNumber, OUTPUT);
+            digitalWrite(pinNumber, 0);  // set LOW to drain capacitor
+            delayMicroseconds(10000);
 
-            mySetWrite = analogRead(pinNumber);  
+            pinMode(pinNumber, INPUT);  // Pin set to read
+
+   
+            while (digitalRead(pinNumber) == 0){
+               delayMicroseconds(1);
+               myCounter += 1;
+               if (myCounter > 10000){     // Loop always has an exit
+                    Particle.publish("Analog Read Error on PI:", "Timed out more than 10,000 loops", 60, PRIVATE);
+                    break;  // exit while loop if too long
+                }
+            } // end while loop
+    
+    
+           // mess around with the resistor and capacitor to get your widest counter range
+           // then counter range / 4095 to get your multiplier
+           int myCounter2 = 4095-(myCounter * 6.32);   // *6.32 depending on your range of counter values my max was  648 / 4095 = 6.32
+           if (myCounter2 <= 0){ myCounter2 = 0; }   // so no negative numbers
+
+            mySetWrite = myCounter2;  
            
-            if ( ShowConsoleMessages  ){ 
-               Particle.publish("Error", "Use DigitalRead, PI does not do Analog Read" , 60, PRIVATE); 
-
-            } // end if show console                  
+            Particle.publish(myDevicePlus , String(myActivity + ", " + pinNumberString + " Pin = " + 
+                String(pinNumber, DEC) + " Capacitive return = " + String(mySetWrite, DEC) ), 60, PRIVATE); 
+            
 
             return mySetWrite;  
         }
@@ -379,7 +404,7 @@ int myMain(String myCode) {
           Particle.publish( myDevicePlus    , "Error: This command not understood!", 60, PRIVATE);  
           pinMode(D7, OUTPUT);
           digitalWrite(D7, HIGH);
-          delay(50);                 
+          delay(5);                 
           digitalWrite(D7, LOW);
        }
    
