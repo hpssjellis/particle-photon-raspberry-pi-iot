@@ -29,10 +29,19 @@ Then test D7 LED for connection.
 
 Then edit the buttons as needed for your device.
 
+
+
+Charts for the Particle Photon:
+
+![](photon-pins.png)
+
+Conversion Charts for the Raspberry PI
+
 ![](chart-pi-photon.png)
 
 
 ![](chart.png)
+
 
 
 
