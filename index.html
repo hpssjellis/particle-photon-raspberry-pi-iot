@@ -308,7 +308,7 @@ RX  = Serial Pin 2 <br>  <br>  <br>
 GPIO pins at:  2-27 Some are preset pull-up.<br>
 Note: PWM! only at GPIO pins:  13, 16,  18,  19  <br><br>
  
-Note: The Raspberry PI does not have analogRead ability, so I have tricked the PIinto thinking A0-A7 are Analog Reads by assuming a 
+Note: The Raspberry PI does not have analogRead ability, so I have tricked the PI into thinking A0-A7 are Analog Reads by assuming a 
    capacitor is being used and a very fast loop is counting the number of loops until the capacitor is charged. <br>
    The circuit goes: 3V3 --> variable resistor --> (Branching to GPIO pin ) --> 0.10 uF Capacitor --> 100 ohm resistor --> GND <br>
     
