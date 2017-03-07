@@ -7,6 +7,8 @@
 
 
 // By Jeremy Ellis
+// Github site at     https://github.com/hpssjellis/particle-photon-raspberry-pi-iot
+//Github Pages webpage at     https://hpssjellis.github.io/particle-photon-raspberry-pi-iot/
 // Twitter: @rocksetta
 // Website: http://www.rocksetta.com
 
