@@ -308,7 +308,7 @@ int myMain(String myCode) {
     
            // mess around with the resistor and capacitor to get your widest counter range
            // then counter range / 4095 to get your multiplier
-           int myCounter2 = 4095-(myCounter * 6.32);   // *6.32 depending on your range of counter values my max was  648 / 4095 = 6.32
+           int myCounter2 = 4095-(myCounter * 6.31);   // *6.31 depending on your range of counter values my max was  4095 / 649 = 6.31
            if (myCounter2 <= 0){ myCounter2 = 0; }   // so no negative numbers
 
             mySetWrite = myCounter2;  
