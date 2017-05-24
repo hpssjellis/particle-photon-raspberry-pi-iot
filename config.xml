@@ -4,7 +4,7 @@
     id          = "com.yoursite.basicparticle"
     version     = "1.02.03" >      <!-- Change this before each compile -->
 
-  <name>Particle-Communication</name>
+  <name>Particle-Communication-Photon or Pi</name>
   <description>
       An example for phonegap build docs.
   </description>
